@@ -8,7 +8,7 @@ import { colors } from "@/theme"
 
 export const HomeScreen: FC<DemoTabScreenProps<"HomeScreen">> = function HomeScreen(_props) {
   return (
-    <Screen style={$container}>
+    <Screen safeAreaEdges={["top"]} style={$container}>
         <SearchBar />
         <BannerSlider />
     </Screen>

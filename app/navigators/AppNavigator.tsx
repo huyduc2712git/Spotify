@@ -13,6 +13,7 @@ export type AppStackParamList = {
   Welcome: undefined
   Login: undefined
   Demo: NavigatorScreenParams<DemoTabParamList>
+  Fanpage: undefined
   // 🔥 Your screens go here
   // IGNITE_GENERATOR_ANCHOR_APP_STACK_PARAM_LIST
 }
@@ -50,6 +51,7 @@ const AppStack = observer(function AppStack() {
         <>
           <Stack.Screen name="Welcome" component={Screens.WelcomeScreen} />
           <Stack.Screen name="Demo" component={DemoNavigator} />
+          <Stack.Screen name="Fanpage" component={Screens.FanpageScreen} />
         </>
       ) : (
         <>
