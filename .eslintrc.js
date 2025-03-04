@@ -1,6 +1,7 @@
 // https://docs.expo.dev/guides/using-eslint/
 module.exports = {
   extends: [
+    "standard",
     "plugin:@typescript-eslint/recommended",
     "plugin:react/recommended",
     "plugin:react-native/all",
@@ -25,8 +26,6 @@ module.exports = {
       },
     ],
     "@typescript-eslint/no-var-requires": 0,
-    "@typescript-eslint/no-require-imports": 0,
-    "@typescript-eslint/no-empty-object-type": 0,
     // eslint
     "no-use-before-define": 0,
     "no-restricted-imports": [
@@ -42,9 +41,7 @@ module.exports = {
         ],
       },
     ],
-    // react
-    "react/prop-types": 0,
-    // react-native
+    //react-native
     "react-native/no-raw-text": 0,
     // reactotron
     "reactotron/no-tron-in-production": "error",

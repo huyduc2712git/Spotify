@@ -24,6 +24,9 @@ ios/.xcode.env.local
 
 # Android/IntelliJ
 #
+android/
+ios/
+/android/app/build/**
 build/
 .idea
 .gradle
@@ -69,9 +72,9 @@ buck-out/
 # Expo
 .expo/*
 bin/Exponent.app
+/dist
 /android
 /ios
-expo-env.d.ts
 
 ## Secrets
 npm-debug.*
@@ -90,3 +93,11 @@ web-build/
 
 # Yarn
 .yarn/*
+yarn.lock
+# @generated: @expo/electron-adapter@0.0.55
+/.expo/*
+# Expo Web
+/web-build/*
+# electron-webpack
+/dist
+# @end @expo/electron-adapter
