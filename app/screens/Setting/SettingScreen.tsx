@@ -12,11 +12,18 @@ const goFanpage = () => {
   navigate("Fanpage")
 }
 
+const goFanpageChat = () => {
+  navigate("FanpageChat")
+}
+
   return (
-    <Screen  safeAreaEdges={["top", "left", "right"]}>
-      <View>
+    <Screen  safeAreaEdges={["top", "bottom"]}>
+      <View style={{ gap: 10 }}> 
         <Pressable onPress={goFanpage}>
           <Text text="Fanpage" />
+        </Pressable>
+        <Pressable onPress={goFanpageChat}>
+          <Text text="FanpageChat" />
         </Pressable>
         <Text>SettingScreen</Text>
       </View>

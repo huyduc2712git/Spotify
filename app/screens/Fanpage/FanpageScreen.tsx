@@ -1,36 +1,47 @@
-import React, { FC } from "react"
-import { View, TouchableOpacity, ViewStyle, TextStyle, Dimensions } from "react-native"
-import { Ionicons } from "@expo/vector-icons"
+import React, { FC, useRef } from "react"
+import { View, ViewStyle, TextStyle } from "react-native"
 import { AppStackScreenProps } from "@/navigators"
 import { observer } from "mobx-react-lite"
 import { Screen, Text } from "@/components"
-import { $styles, colors } from "@/theme"
+import { colors } from "@/theme"
 import { Header } from "./components/Header"
 import { OptionButton } from "./components/OptionButton"
 import { ListPage } from "./components/ListPage"
 import normalize, { normalizeText } from "@/utils/normalize"
+import { ModalAddPage } from "./components/ModalAddPage"
+import { BottomSheetMethods } from "@/components/BottomSheet/BottomSheet"
 
 interface FanpageScreenProps extends AppStackScreenProps<"Fanpage"> {}
 
 export const FanpageScreen: FC<FanpageScreenProps> = observer(function FanpageScreen(_props) {
+  const modalRef = useRef<BottomSheetMethods>(null)
+
   return (
-    <Screen
-      preset="fixed"
-      backgroundColor={colors.background}
-      style={$container}
-      safeAreaEdges={["top", "bottom"]}
-    >
-      <Header />
-      <Screen backgroundColor={colors.background} preset="auto" contentContainerStyle={$content}>
-        <Text
-          text="Vuốt sang trái để xóa fanpage đã chọn ra khỏi danh sách đã kết nối"
-          style={$waningText}
-          weight="regular"
+    <>
+      <Screen
+        preset="fixed"
+        backgroundColor={"#F5F6F8"}
+        contentContainerStyle={$container}
+        safeAreaEdges={["top", "bottom"]}
+      >
+        <Header />
+        <View style={$content}>
+          <Text
+            text="Vuốt sang trái để xóa fanpage đã chọn ra khỏi danh sách đã kết nối"
+            style={$waningText}
+            weight="regular"
+          />
+          <ListPage modalRef={modalRef} />
+        </View>
+        <OptionButton
+          backgroundColor="#F9474E"
+          titleColor={colors.palette.neutral100}
+          title="Truy Cập"
+          onPress={() => {}}
         />
-        <ListPage />
       </Screen>
-      <OptionButton title="Truy Cập" onPress={() => {}} />
-    </Screen>
+      <ModalAddPage modalRef={modalRef} />
+    </>
   )
 })
 
@@ -39,8 +50,8 @@ const $container: ViewStyle = {
 }
 
 const $content: ViewStyle = {
-    flex: 1,
-  paddingHorizontal: normalize(16),
+  flex: 1,
+  padding: normalize(16),
 }
 
 const $waningText: TextStyle = {

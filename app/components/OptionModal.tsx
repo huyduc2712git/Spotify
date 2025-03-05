@@ -6,7 +6,7 @@ import { colors } from "@/theme"
 const { height, width } = Dimensions.get("window")
 
 interface OptionModalProps {
-  onClose: () => void
+  onClose?: () => void
   children: React.ReactNode
   title?: string
   position?: "top" | "bottom" | "center"
@@ -52,7 +52,7 @@ export const OptionModal = forwardRef<OptionModalRef, OptionModalProps>(
           style={$modalOverlayTouchable}
           onPress={() => {
             setIsVisible(false)
-            onClose()
+            onClose?.()
           }}
           activeOpacity={1}
         >
@@ -68,7 +68,7 @@ export const OptionModal = forwardRef<OptionModalRef, OptionModalProps>(
                 style={$closeButton}
                 onPress={() => {
                   setIsVisible(false)
-                  onClose()
+                  onClose?.()
                 }}
               >
                 <Text style={$closeButtonText}>Đóng</Text>

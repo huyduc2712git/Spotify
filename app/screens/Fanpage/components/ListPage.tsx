@@ -3,7 +3,6 @@ import { colors } from "@/theme"
 import normalize, { normalizeText } from "@/utils/normalize"
 import { Icons } from "assets/icons"
 import {
-  Dimensions,
   FlatList,
   Image,
   ImageStyle,
@@ -12,8 +11,8 @@ import {
   View,
   ViewStyle,
 } from "react-native"
-import { SwipeListView } from "react-native-swipe-list-view"
-import { useState } from "react"
+import { RefObject } from "react"
+import { BottomSheetMethods } from "@/components/BottomSheet/BottomSheet"
 
 interface Fanpage {
   id: string
@@ -56,58 +55,65 @@ const fanpageData: Fanpage[] = [
     avatar: "https://i.pinimg.com/1200x/05/c3/59/05c359cd010df3e7f1ea3cb6f6f54fad.jpg",
     isConnected: true,
   },
+  {
+    id: "6",
+    name: "Laptop Già Rè",
+    avatar: "https://i.pinimg.com/1200x/05/c3/59/05c359cd010df3e7f1ea3cb6f6f54fad.jpg",
+    isConnected: true,
+  },
+  {
+    id: "7",
+    name: "Laptop Già Rè",
+    avatar: "https://i.pinimg.com/1200x/05/c3/59/05c359cd010df3e7f1ea3cb6f6f54fad.jpg",
+    isConnected: true,
+  },
+  {
+    id: "8",
+    name: "Laptop Già Rè",
+    avatar: "https://i.pinimg.com/1200x/05/c3/59/05c359cd010df3e7f1ea3cb6f6f54fad.jpg",
+    isConnected: true,
+  },
 ]
 
 interface Props {
   data?: Fanpage[]
+  modalRef: RefObject<BottomSheetMethods>
 }
 
-export const ListPage = ({ data = fanpageData }: Props) => {
-  const [fanpages, setFanpages] = useState<Fanpage[]>(data)
+export const ListPage = ({ data = fanpageData, modalRef }: Props) => {
+  const onPressModal = () => {
+    modalRef.current?.expand()
+  }
 
-  const renderItem = ({ item }: { item: Fanpage }) => (
-    <View style={$pageItem}>
-      <Image source={{ uri: item.avatar }} style={$avatar} />
-      <View style={$contentPageItem}>
-        <Text text={item.name} style={$titleItem} weight="semiBold" />
-        <Text text={item.isConnected ? "Đã kết nối" : "Chưa kết nối"} style={$titleConnect} />
+  const renderPage = (item: Fanpage) => {
+    return (
+      <View style={$pageItem}>
+        <Image source={{ uri: item.avatar }} style={$avatar} />
+        <View style={$contentPageItem}>
+          <Text text={item.name} style={$titleItem} weight="medium" />
+          <Text
+            text={item.isConnected ? "Đã kết nối" : "Chưa kết nối"}
+            style={$titleConnect}
+            weight="regular"
+          />
+        </View>
       </View>
-    </View>
-  )
-
-  const renderHiddenItem = ({ item }: { item: Fanpage }) => (
-    <View style={$rowBack}>
-      <TouchableOpacity style={$backRightBtn} onPress={() => handleDelete(item.id)}>
-        <Text style={$backTextWhite}>Xóa</Text>
-      </TouchableOpacity>
-    </View>
-  )
-
-  const handleDelete = (id: string) => {
-    setFanpages(fanpages.filter((item) => item.id !== id))
+    )
   }
 
   return (
     <View style={$container}>
-      <SwipeListView
-        data={fanpages}
-        renderItem={renderItem}
-        renderHiddenItem={renderHiddenItem}
-        leftOpenValue={0} // Disable left swipe
-        rightOpenValue={normalize(-68)} // Width of the swipe area for delete
-        onRowOpen={(rowKey, rowMap) => {
-          setTimeout(() => {
-            rowMap[rowKey]?.closeRow()
-          }, 2000)
-        }}
+      <FlatList
+        data={data}
+        renderItem={({ item }) => renderPage(item)}
         keyExtractor={(item) => item.id}
         contentContainerStyle={$contentContainerStyle}
         ListFooterComponent={
-          <TouchableOpacity style={$pageItem} onPress={() => {}}>
+          <TouchableOpacity style={$pageItem} activeOpacity={0.6} onPress={onPressModal}>
             <View style={$addImage}>
               <Image source={Icons.ic_add} style={$iconAdd} />
             </View>
-            <Text text="Thêm fanpage mới" style={$titleItem} weight="semiBold" />
+            <Text text="Thêm fanpage mới" style={$titleItem} weight="medium" />
           </TouchableOpacity>
         }
       />
@@ -116,12 +122,12 @@ export const ListPage = ({ data = fanpageData }: Props) => {
 }
 
 const $container: ViewStyle = {
-  marginTop: normalize(16),
-  height: Dimensions.get("window").height - normalize(160),
+  flex: 1,
 }
 
 const $contentContainerStyle: ViewStyle = {
   gap: normalize(8),
+  paddingVertical: normalize(16),
 }
 
 const $pageItem: ViewStyle = {
@@ -131,11 +137,10 @@ const $pageItem: ViewStyle = {
   flexDirection: "row",
   gap: normalize(12),
   borderRadius: normalize(12),
-  position: "relative",
 }
 
 const $titleItem: TextStyle = {
-  fontSize: normalizeText(16),
+  fontSize: normalizeText(14),
   lineHeight: normalizeText(19.36),
   color: colors.palette.neutral800,
 }
@@ -171,30 +176,4 @@ const $titleConnect: TextStyle = {
   fontSize: normalizeText(13),
   lineHeight: normalizeText(15.73),
   marginTop: normalize(4),
-}
-
-// Styles for swipe-to-delete
-const $rowBack: ViewStyle = {
-  alignItems: "center",
-  flex: 1,
-  justifyContent: "flex-end",
-  flexDirection: "row",
-}
-
-const $backRightBtn: ViewStyle = {
-  alignItems: "center",
-  bottom: 0,
-  justifyContent: "center",
-  position: "absolute",
-  top: 0,
-  width: 68,
-  backgroundColor: "#F9474E",
-  right: 0,
-  borderRadius: normalize(16)
-}
-
-const $backTextWhite: TextStyle = {
-  color: "#FFF",
-  fontSize: normalizeText(16),
-  fontWeight: "bold",
 }
