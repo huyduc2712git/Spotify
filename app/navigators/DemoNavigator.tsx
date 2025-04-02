@@ -11,7 +11,7 @@ import { useAppTheme } from "@/utils/useAppTheme"
 
 export type DemoTabParamList = {
   // DemoCommunity: undefined
-  // DemoShowroom: { queryIndex?: string; itemIndex?: string }
+  DemoShowroom: { queryIndex?: string; itemIndex?: string }
   // DemoDebug: undefined
   // DemoPodcastList: undefined
   HomeScreen: undefined

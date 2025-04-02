@@ -10,4 +10,5 @@ export const Icons = {
   ic_menu: require("./ic_menu.png"),
   ic_tag: require("./ic_tag.png"),
   ic_phone: require("./ic_phone.png"),
+  ic_delete: require("./ic_delete.png"),
 }

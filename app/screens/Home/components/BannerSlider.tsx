@@ -1,3 +1,4 @@
+import SmartImage from "@/components/SmartImage/SmartImage"
 import React, { useState, useRef, useEffect } from "react"
 import {
   View,
@@ -21,15 +22,15 @@ interface Props {
 const dataFake: BannerItem[] = [
   {
     id: 1,
-    imageUrl: "https://via.placeholder.com/150",
+    imageUrl: "https://d3design.vn/uploads/5495874fhgtrty567.jpg",
   },
   {
     id: 2,
-    imageUrl: "https://via.placeholder.com/150",
+    imageUrl: "https://d3design.vn/uploads/5495874gh6y5356.jpg",
   },
   {
     id: 3,
-    imageUrl: "https://via.placeholder.com/150",
+    imageUrl: "https://d3design.vn/uploads/00901.jpg",
   },
 ]
 
@@ -61,7 +62,7 @@ export const BannerSlider = ({ data = dataFake }: Props) => {
 
   const renderItem = (item: BannerItem, index: number) => (
     <View key={item.id} style={$slide}>
-      <Image source={{ uri: item.imageUrl }} style={$bannerImage} resizeMode="cover" />
+      <SmartImage source={{ uri: item.imageUrl }} style={$bannerImage} />
     </View>
   )
 
@@ -73,7 +74,7 @@ export const BannerSlider = ({ data = dataFake }: Props) => {
         pagingEnabled
         showsHorizontalScrollIndicator={false}
         onScroll={handleScroll}
-        scrollEventThrottle={16} // Optimize performance
+        scrollEventThrottle={16}
         style={$scrollView}
       >
         {data.map((item, index) => renderItem(item, index))}
@@ -107,11 +108,11 @@ const $scrollView: ViewStyle = {
 }
 
 const $slide: ViewStyle = {
-  width: Dimensions.get("window").width, // Margin for better spacing
-  backgroundColor: "#ff4500", // Bright orange background as in your image
+  width: Dimensions.get("window").width,
+  backgroundColor: "#ff4500",
   overflow: "hidden",
-  elevation: 4, // Shadow for Android
-  shadowColor: "#000", // Shadow for iOS
+  elevation: 4,
+  shadowColor: "#000",
   shadowOffset: { width: 0, height: 2 },
   shadowOpacity: 0.2,
   shadowRadius: 4,
@@ -119,7 +120,8 @@ const $slide: ViewStyle = {
 
 const $bannerImage: ImageStyle = {
   width: "100%",
-  height: 200, // Adjust height based on your image or design needs
+  height: 200,
+  resizeMode: "cover",
 }
 
 const $paginationContainer: ViewStyle = {

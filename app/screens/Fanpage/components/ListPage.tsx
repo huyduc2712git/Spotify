@@ -1,18 +1,12 @@
 import { Text } from "@/components"
 import { colors } from "@/theme"
 import normalize, { normalizeText } from "@/utils/normalize"
-import { Icons } from "assets/icons"
-import {
-  FlatList,
-  Image,
-  ImageStyle,
-  TextStyle,
-  TouchableOpacity,
-  View,
-  ViewStyle,
-} from "react-native"
+import { Image, ImageStyle, TextStyle, View, ViewStyle } from "react-native"
 import { RefObject } from "react"
 import { BottomSheetMethods } from "@/components/BottomSheet/BottomSheet"
+import SwipeListView from "@/components/SwipeListView/SwipeListView"
+import { RenderRightAction } from "./RenderRightAction"
+import { ListFooterComponent } from "./ListFooterComponent"
 
 interface Fanpage {
   id: string
@@ -85,9 +79,9 @@ export const ListPage = ({ data = fanpageData, modalRef }: Props) => {
     modalRef.current?.expand()
   }
 
-  const renderPage = (item: Fanpage) => {
+  const renderPage = ({ item, isRadius }: { item: Fanpage; isRadius: boolean }) => {
     return (
-      <View style={$pageItem}>
+      <View style={[$pageItem, isRadius && $pageItemRadius]}>
         <Image source={{ uri: item.avatar }} style={$avatar} />
         <View style={$contentPageItem}>
           <Text text={item.name} style={$titleItem} weight="medium" />
@@ -103,19 +97,14 @@ export const ListPage = ({ data = fanpageData, modalRef }: Props) => {
 
   return (
     <View style={$container}>
-      <FlatList
+      <SwipeListView
         data={data}
-        renderItem={({ item }) => renderPage(item)}
+        renderItem={renderPage}
         keyExtractor={(item) => item.id}
         contentContainerStyle={$contentContainerStyle}
-        ListFooterComponent={
-          <TouchableOpacity style={$pageItem} activeOpacity={0.6} onPress={onPressModal}>
-            <View style={$addImage}>
-              <Image source={Icons.ic_add} style={$iconAdd} />
-            </View>
-            <Text text="Thêm fanpage mới" style={$titleItem} weight="medium" />
-          </TouchableOpacity>
-        }
+        showsVerticalScrollIndicator={false}
+        ListFooterComponent={<ListFooterComponent onPressModal={onPressModal} />}
+        renderRightActions={(id) => <RenderRightAction id={id} onDeleted={() => {}} />}
       />
     </View>
   )
@@ -139,25 +128,16 @@ const $pageItem: ViewStyle = {
   borderRadius: normalize(12),
 }
 
+const $pageItemRadius: ViewStyle = {
+  borderTopRightRadius: 0,
+  borderBottomRightRadius: 0,
+  ...$pageItem,
+}
+
 const $titleItem: TextStyle = {
   fontSize: normalizeText(14),
   lineHeight: normalizeText(19.36),
   color: colors.palette.neutral800,
-}
-
-const $addImage: ViewStyle = {
-  width: normalize(54),
-  height: normalize(54),
-  alignItems: "center",
-  justifyContent: "center",
-  backgroundColor: "#F5F6F8",
-  borderRadius: normalize(16),
-}
-
-const $iconAdd: ImageStyle = {
-  width: normalize(14),
-  height: normalize(14),
-  resizeMode: "contain",
 }
 
 const $avatar: ImageStyle = {
